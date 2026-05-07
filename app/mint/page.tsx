@@ -1,0 +1,65 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { parseEther } from "viem";
+import { useAccount, useWriteContract } from "wagmi";
+import { PageIntro, Shell } from "../../components/shell";
+import { HOUSE_OF_JOSHI_CONTRACT, houseOfJoshiAbi, tiers } from "../../lib/contract";
+
+export default function MintPage() {
+  const account = useAccount();
+  const { writeContractAsync, isPending } = useWriteContract();
+  const [selectedTier, setSelectedTier] = useState<(typeof tiers)[number]>(tiers[0]);
+  const [to, setTo] = useState("");
+  const [uri, setUri] = useState("");
+  const [status, setStatus] = useState("Choose a tier and add token metadata URI.");
+  const recipient = useMemo(() => to || account.address || "", [account.address, to]);
+
+  async function mint() {
+    if (!recipient || !uri) {
+      setStatus("Connect wallet, choose recipient, and enter metadata URI.");
+      return;
+    }
+    try {
+      const hash = await writeContractAsync({
+        address: HOUSE_OF_JOSHI_CONTRACT,
+        abi: houseOfJoshiAbi,
+        functionName: "mint",
+        args: [recipient as `0x${string}`, uri, selectedTier.tier],
+        value: parseEther(selectedTier.price)
+      });
+      setStatus(`Mint submitted: ${hash}`);
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Mint failed.");
+    }
+  }
+
+  return (
+    <Shell>
+      <PageIntro eyebrow="Mint" title="Royal Mint">
+        Mint directly from the HouseOfJoshiNFT contract using Comm, Elite, or Big Boy tier pricing.
+      </PageIntro>
+      <section className="tier-grid">
+        {tiers.map((tier) => (
+          <button className={selectedTier.tier === tier.tier ? "tier-card active" : "tier-card"} key={tier.tier} type="button" onClick={() => setSelectedTier(tier)}>
+            <span>Tier {tier.tier}</span>
+            <strong>{tier.name}</strong>
+            <small>{tier.price} ETH</small>
+            <p>{tier.note}</p>
+          </button>
+        ))}
+      </section>
+      <section className="form-panel">
+        <h2>Mint Details</h2>
+        <div className="form-grid">
+          <label>Recipient<input value={to} onChange={(event) => setTo(event.target.value)} placeholder={account.address || "0x..."} /></label>
+          <label>Metadata URI<input value={uri} onChange={(event) => setUri(event.target.value)} placeholder="ipfs://.../1.json" /></label>
+        </div>
+        <div className="actions">
+          <button type="button" disabled={isPending} onClick={mint}>Mint {selectedTier.name}</button>
+          <span className="status">{status}</span>
+        </div>
+      </section>
+    </Shell>
+  );
+}
