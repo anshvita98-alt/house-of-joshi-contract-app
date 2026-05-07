@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useReadContract } from "wagmi";
 import { PageIntro, Shell, Stat } from "../../components/shell";
-import { HOUSE_OF_JOSHI_CONTRACT, houseOfJoshiAbi, tiers } from "../../lib/contract";
+import { HOUSE_OF_JOSHI_CONTRACT, hasContractAddress, houseOfJoshiAbi, tiers } from "../../lib/contract";
 import { shortAddress } from "../../lib/utils";
 
 export default function CollectionPage() {
@@ -13,21 +13,21 @@ export default function CollectionPage() {
     abi: houseOfJoshiAbi,
     functionName: "ownerOf",
     args: tokenId ? [BigInt(tokenId)] : undefined,
-    query: { enabled: Boolean(tokenId), retry: false }
+    query: { enabled: hasContractAddress && Boolean(tokenId), retry: false }
   });
   const { data: uri } = useReadContract({
     address: HOUSE_OF_JOSHI_CONTRACT,
     abi: houseOfJoshiAbi,
     functionName: "tokenURI",
     args: tokenId ? [BigInt(tokenId)] : undefined,
-    query: { enabled: Boolean(tokenId), retry: false }
+    query: { enabled: hasContractAddress && Boolean(tokenId), retry: false }
   });
   const { data: tier } = useReadContract({
     address: HOUSE_OF_JOSHI_CONTRACT,
     abi: houseOfJoshiAbi,
     functionName: "tokenTier",
     args: tokenId ? [BigInt(tokenId)] : undefined,
-    query: { enabled: Boolean(tokenId), retry: false }
+    query: { enabled: hasContractAddress && Boolean(tokenId), retry: false }
   });
 
   return (
@@ -42,6 +42,7 @@ export default function CollectionPage() {
       </section>
       <section className="form-panel">
         <h2>Token Lookup</h2>
+        {!hasContractAddress && <p>Add your NFT contract address later to enable live token lookup.</p>}
         <div className="form-grid">
           <label>
             Token ID

@@ -1,5 +1,5 @@
 export function shortAddress(address?: string) {
-  if (!address) return "Not loaded";
+  if (!address) return "Not set";
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 

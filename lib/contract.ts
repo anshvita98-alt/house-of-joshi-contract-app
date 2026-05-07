@@ -1,9 +1,10 @@
 import { base, baseSepolia } from "wagmi/chains";
 import type { Address } from "viem";
 
-export const HOUSE_OF_JOSHI_CONTRACT =
-  (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as Address | undefined) ||
-  "0x6478D2Df20E1273DEbe010DecD23A0291af91031";
+const configuredContract = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS?.trim();
+
+export const HOUSE_OF_JOSHI_CONTRACT = configuredContract ? (configuredContract as Address) : undefined;
+export const hasContractAddress = Boolean(HOUSE_OF_JOSHI_CONTRACT);
 
 export const targetChain = process.env.NEXT_PUBLIC_CHAIN === "base-sepolia" ? baseSepolia : base;
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useAccount, useDisconnect, useSwitchChain } from "wagmi";
-import { HOUSE_OF_JOSHI_CONTRACT, targetChain } from "../lib/contract";
+import { targetChain } from "../lib/contract";
 import { shortAddress } from "../lib/utils";
 
 const nav = [

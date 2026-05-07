@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { parseEther } from "viem";
 import { useAccount, useWriteContract } from "wagmi";
 import { PageIntro, Shell } from "../../components/shell";
-import { HOUSE_OF_JOSHI_CONTRACT, houseOfJoshiAbi, tiers } from "../../lib/contract";
+import { HOUSE_OF_JOSHI_CONTRACT, hasContractAddress, houseOfJoshiAbi, tiers } from "../../lib/contract";
 
 export default function MintPage() {
   const account = useAccount();
@@ -16,6 +16,10 @@ export default function MintPage() {
   const recipient = useMemo(() => to || account.address || "", [account.address, to]);
 
   async function mint() {
+    if (!hasContractAddress || !HOUSE_OF_JOSHI_CONTRACT) {
+      setStatus("Add your NFT contract address in NEXT_PUBLIC_CONTRACT_ADDRESS before minting.");
+      return;
+    }
     if (!recipient || !uri) {
       setStatus("Connect wallet, choose recipient, and enter metadata URI.");
       return;
@@ -56,7 +60,7 @@ export default function MintPage() {
           <label>Metadata URI<input value={uri} onChange={(event) => setUri(event.target.value)} placeholder="ipfs://.../1.json" /></label>
         </div>
         <div className="actions">
-          <button type="button" disabled={isPending} onClick={mint}>Mint {selectedTier.name}</button>
+          <button type="button" disabled={isPending || !hasContractAddress} onClick={mint}>Mint {selectedTier.name}</button>
           <span className="status">{status}</span>
         </div>
       </section>

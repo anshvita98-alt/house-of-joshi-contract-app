@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useAccount, useReadContract } from "wagmi";
 import { InfoCard, PageIntro, Shell, Stat } from "../components/shell";
-import { HOUSE_OF_JOSHI_CONTRACT, houseOfJoshiAbi, targetChain } from "../lib/contract";
+import { HOUSE_OF_JOSHI_CONTRACT, hasContractAddress, houseOfJoshiAbi, targetChain } from "../lib/contract";
 import { shortAddress } from "../lib/utils";
 
 export default function DashboardPage() {
@@ -13,7 +13,7 @@ export default function DashboardPage() {
     abi: houseOfJoshiAbi,
     functionName: "balanceOf",
     args: account.address ? [account.address] : undefined,
-    query: { enabled: Boolean(account.address) }
+    query: { enabled: hasContractAddress && Boolean(account.address) }
   });
 
   return (
