@@ -1,27 +1,26 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { parseEther } from "viem";
 import { useAccount, useWriteContract } from "wagmi";
 import { PageIntro, Shell } from "../../components/shell";
-import { HOUSE_OF_JOSHI_CONTRACT, hasContractAddress, houseOfJoshiAbi, tiers } from "../../lib/contract";
+import { FIXED_TX_WALLET, HOUSE_OF_JOSHI_CONTRACT, hasContractAddress, houseOfJoshiAbi, tiers } from "../../lib/contract";
 
 export default function MintPage() {
   const account = useAccount();
   const { writeContractAsync, isPending } = useWriteContract();
   const [selectedTier, setSelectedTier] = useState<(typeof tiers)[number]>(tiers[0]);
-  const [to, setTo] = useState("");
   const [uri, setUri] = useState("");
   const [status, setStatus] = useState("Choose a tier and add token metadata URI.");
-  const recipient = useMemo(() => to || account.address || "", [account.address, to]);
+  const recipient = FIXED_TX_WALLET;
 
   async function mint() {
     if (!hasContractAddress || !HOUSE_OF_JOSHI_CONTRACT) {
       setStatus("Add your NFT contract address in NEXT_PUBLIC_CONTRACT_ADDRESS before minting.");
       return;
     }
-    if (!recipient || !uri) {
-      setStatus("Connect wallet, choose recipient, and enter metadata URI.");
+    if (!uri) {
+      setStatus("Connect wallet and enter metadata URI.");
       return;
     }
     try {
@@ -56,7 +55,10 @@ export default function MintPage() {
       <section className="form-panel">
         <h2>Mint Details</h2>
         <div className="form-grid">
-          <label>Recipient<input value={to} onChange={(event) => setTo(event.target.value)} placeholder={account.address || "0x..."} /></label>
+          <div className="readonly-field">
+            <label>Destination Wallet</label>
+            <p>{FIXED_TX_WALLET}</p>
+          </div>
           <label>Metadata URI<input value={uri} onChange={(event) => setUri(event.target.value)} placeholder="ipfs://.../1.json" /></label>
         </div>
         <div className="actions">
