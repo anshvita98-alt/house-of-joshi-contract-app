@@ -412,33 +412,31 @@ button:disabled {
   height: 100%;
   border: 2px solid var(--gold-bright);
   border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    rgba(237, 201, 94, 0.1) 0deg 15deg,
-    rgba(237, 201, 94, 0.2) 15deg 30deg,
-    rgba(237, 201, 94, 0.1) 30deg 45deg,
-    rgba(237, 201, 94, 0.2) 45deg 60deg,
-    rgba(237, 201, 94, 0.1) 60deg 75deg,
-    rgba(237, 201, 94, 0.2) 75deg 90deg,
-    rgba(237, 201, 94, 0.1) 90deg 105deg,
-    rgba(237, 201, 94, 0.2) 105deg 120deg,
-    rgba(237, 201, 94, 0.1) 120deg 135deg,
-    rgba(237, 201, 94, 0.2) 135deg 150deg,
-    rgba(237, 201, 94, 0.1) 150deg 165deg,
-    rgba(237, 201, 94, 0.2) 165deg 180deg,
-    rgba(237, 201, 94, 0.1) 180deg 195deg,
-    rgba(237, 201, 94, 0.2) 195deg 210deg,
-    rgba(237, 201, 94, 0.1) 210deg 225deg,
-    rgba(237, 201, 94, 0.2) 225deg 240deg,
-    rgba(237, 201, 94, 0.1) 240deg 255deg,
-    rgba(237, 201, 94, 0.2) 255deg 270deg,
-    rgba(237, 201, 94, 0.1) 270deg 285deg,
-    rgba(237, 201, 94, 0.2) 285deg 300deg,
-    rgba(237, 201, 94, 0.1) 300deg 315deg,
-    rgba(237, 201, 94, 0.2) 315deg 330deg,
-    rgba(237, 201, 94, 0.1) 330deg 345deg,
-    rgba(237, 201, 94, 0.2) 345deg 360deg
-  );
+  background: conic-gradient(from 0deg,
+      rgba(237, 201, 94, 0.1) 0deg 15deg,
+      rgba(237, 201, 94, 0.2) 15deg 30deg,
+      rgba(237, 201, 94, 0.1) 30deg 45deg,
+      rgba(237, 201, 94, 0.2) 45deg 60deg,
+      rgba(237, 201, 94, 0.1) 60deg 75deg,
+      rgba(237, 201, 94, 0.2) 75deg 90deg,
+      rgba(237, 201, 94, 0.1) 90deg 105deg,
+      rgba(237, 201, 94, 0.2) 105deg 120deg,
+      rgba(237, 201, 94, 0.1) 120deg 135deg,
+      rgba(237, 201, 94, 0.2) 135deg 150deg,
+      rgba(237, 201, 94, 0.1) 150deg 165deg,
+      rgba(237, 201, 94, 0.2) 165deg 180deg,
+      rgba(237, 201, 94, 0.1) 180deg 195deg,
+      rgba(237, 201, 94, 0.2) 195deg 210deg,
+      rgba(237, 201, 94, 0.1) 210deg 225deg,
+      rgba(237, 201, 94, 0.2) 225deg 240deg,
+      rgba(237, 201, 94, 0.1) 240deg 255deg,
+      rgba(237, 201, 94, 0.2) 255deg 270deg,
+      rgba(237, 201, 94, 0.1) 270deg 285deg,
+      rgba(237, 201, 94, 0.2) 285deg 300deg,
+      rgba(237, 201, 94, 0.1) 300deg 315deg,
+      rgba(237, 201, 94, 0.2) 315deg 330deg,
+      rgba(237, 201, 94, 0.1) 330deg 345deg,
+      rgba(237, 201, 94, 0.2) 345deg 360deg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -454,6 +452,7 @@ button:disabled {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(var(--spinner-rotation, 0deg));
   }
