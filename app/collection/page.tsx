@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useReadContract } from "wagmi";
 import { PageIntro, Shell, Stat } from "../../components/shell";
-import { HOUSE_OF_JOSHI_CONTRACT, hasContractAddress, houseOfJoshiAbi, tiers } from "../../lib/contract";
+import { HOUSE_OF_JOSHI_CONTRACT, hasContractAddress, houseOfJoshiAbi } from "../../lib/contract";
 import { shortAddress } from "../../lib/utils";
 
 export default function CollectionPage() {
@@ -35,11 +35,6 @@ export default function CollectionPage() {
       <PageIntro eyebrow="Collection" title="Heirloom Lookup">
         Inspect minted token ownership, metadata URI, and tier data from the House of Joshi contract.
       </PageIntro>
-      <section className="card-grid">
-        {tiers.map((item) => (
-          <Stat key={item.tier} label={item.name} value={`${item.price} ETH`} />
-        ))}
-      </section>
       <section className="form-panel">
         <h2>Token Lookup</h2>
         {!hasContractAddress && <p>Add your NFT contract address later to enable live token lookup.</p>}
