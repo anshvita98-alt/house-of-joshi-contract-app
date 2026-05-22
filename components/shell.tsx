@@ -53,7 +53,7 @@ export function SidebarWallet() {
 
   useEffect(() => {
     if (account.isConnected && account.chainId && account.chainId !== targetChain.id) {
-      switchChainAsync({ chainId: targetChain.id }).catch(() => {});
+      switchChainAsync({ chainId: targetChain.id }).catch(() => { });
     }
   }, [account.chainId, account.isConnected, switchChainAsync]);
 
@@ -82,7 +82,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
     <main className="console-shell">
       <aside className="sidebar">
         <Link className="sidebar-brand" href="/">
-          <img src="/hoj-shield.svg" alt="" />
+          <img src="/jh-logo.svg" alt="House of Joshi Logo" />
           <span>
             <strong>House of Joshi</strong>
             <small>HOJ NFT Console</small>

@@ -41,7 +41,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="crest-card">
-          <img src="/hoj-shield.svg" alt="House of Joshi crest" />
+          <img src="/jh-logo.svg" alt="House of Joshi Logo" />
         </div>
       </section>
 

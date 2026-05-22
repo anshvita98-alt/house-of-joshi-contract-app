@@ -1,0 +1,21 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE894;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#EDC95E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C49A36;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.6" />
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="rgba(13, 8, 4, 0.9)" stroke="#EDC95E" stroke-width="2"/>
+  
+  <!-- J Letter -->
+  <text x="50" y="140" font-family="Georgia, serif" font-size="120" font-weight="bold" fill="url(#goldGradient)" filter="url(#shadow)" text-anchor="middle" style="font-style: italic;">J</text>
+  
+  <!-- H Letter -->
+  <text x="130" y="140" font-family="Georgia, serif" font-size="120" font-weight="bold" fill="url(#goldGradient)" filter="url(#shadow)" text-anchor="middle">H</text>
+</svg>
