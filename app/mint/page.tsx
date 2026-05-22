@@ -40,7 +40,7 @@ export default function MintPage() {
   return (
     <Shell>
       <PageIntro eyebrow="Mint" title="Royal Mint">
-        Mint directly from the HouseOfJoshiNFT contract using Comm, Elite, or Big Boy tier pricing.
+        Mint directly from the HouseOfJoshiNFT contract.
       </PageIntro>
       <section className="tier-grid">
         {tiers.map((tier) => (

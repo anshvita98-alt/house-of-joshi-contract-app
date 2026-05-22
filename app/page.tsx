@@ -48,7 +48,6 @@ export default function DashboardPage() {
       <hr className="divider" />
 
       <section className="card-grid">
-        <InfoCard title="Mint Access">Mint Comm, Elite, or Big Boy tier NFTs directly from the contract.</InfoCard>
         <InfoCard title="Holder Utility">Use holder-only slots, rewards, and fraction controls from one console.</InfoCard>
         <InfoCard title="Royal Design">A clean golden dashboard made for the House of Joshi brand.</InfoCard>
       </section>
