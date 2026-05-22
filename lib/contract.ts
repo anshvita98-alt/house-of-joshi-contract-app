@@ -10,11 +10,7 @@ export const targetChain = process.env.NEXT_PUBLIC_CHAIN === "base-sepolia" ? ba
 
 export const FIXED_TX_WALLET = "0x6736d2eA9807297F0e56967361B9410854B86a5f" as const;
 
-export const tiers = [
-  { tier: 1, name: "Comm", price: "0.0005", note: "Entry mint access and holder utilities." },
-  { tier: 2, name: "Elite", price: "0.02", note: "Premium mint with physical order event." },
-  { tier: 3, name: "Big Boy", price: "0.08", note: "Top tier with fractional split support." }
-] as const;
+export const tiers = [] as const;
 
 export const houseOfJoshiAbi = [
   {
