@@ -508,6 +508,94 @@ button:disabled {
   opacity: 0.55;
 }
 
+.participants-table {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: var(--gap);
+}
+
+.participants-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(13, 8, 4, 0.72);
+  border: 1px solid var(--gold-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.participants-table thead {
+  background: rgba(28, 17, 8, 0.9);
+}
+
+.participants-table th {
+  padding: 12px 16px;
+  text-align: left;
+  color: var(--gold-bright);
+  font-weight: 750;
+  font-size: 14px;
+  border-bottom: 1px solid var(--gold-line);
+}
+
+.participants-table td {
+  padding: 14px 16px;
+  color: var(--muted);
+  font-size: 15px;
+  border-bottom: 1px solid rgba(237, 201, 94, 0.15);
+}
+
+.participants-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.participant-image {
+  text-align: center;
+}
+
+.participant-image img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  border: 1px solid var(--gold-line);
+  object-fit: cover;
+}
+
+.participant-image .no-image {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(237, 201, 94, 0.1);
+  border-radius: 8px;
+  border: 1px solid var(--gold-line);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.delete-btn {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid rgba(200, 50, 50, 0.6);
+  border-radius: var(--radius);
+  color: #ff8080;
+  background: rgba(200, 50, 50, 0.15);
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  border-color: rgba(255, 100, 100, 0.8);
+  background: rgba(200, 50, 50, 0.25);
+  color: #ffb0b0;
+}
+
+.delete-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 @media (max-width: 1080px) {
   .console-shell {
     grid-template-columns: 236px minmax(0, 1fr);

@@ -1,24 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { PageIntro, Shell, Stat } from "../../components/shell";
 import { HOUSE_OF_JOSHI_CONTRACT, hasContractAddress, houseOfJoshiAbi } from "../../lib/contract";
 import { formatTimestamp } from "../../lib/utils";
 
-const PARTICIPANTS = [
-  "Alice", "Bob", "Charlie", "Diana", "Eve", "Frank", "Grace", "Henry",
-  "Iris", "Jack", "Kate", "Leo", "Mia", "Noah", "Olivia", "Peter",
-  "Quinn", "Rachel", "Sam", "Tina", "Uma", "Victor", "Wendy", "Xavier"
+interface Participant {
+  id: string;
+  name: string;
+  image: string;
+}
+
+const DEFAULT_PARTICIPANTS: Participant[] = [
+  { id: "1", name: "Alice", image: "" },
+  { id: "2", name: "Bob", image: "" },
+  { id: "3", name: "Charlie", image: "" },
+  { id: "4", name: "Diana", image: "" },
 ];
 
 export default function SlotsPage() {
   const account = useAccount();
   const { writeContractAsync, isPending } = useWriteContract();
   const [isSpinning, setIsSpinning] = useState(false);
-  const [winner, setWinner] = useState<string | null>(null);
+  const [winner, setWinner] = useState<Participant | null>(null);
   const [status, setStatus] = useState("NFT holders can spin once every 24 hours to select a random winner.");
   const [spinnerRotation, setSpinnerRotation] = useState(0);
+  const [participants, setParticipants] = useState<Participant[]>(DEFAULT_PARTICIPANTS);
+  const [newName, setNewName] = useState("");
+  const [newImage, setNewImage] = useState("");
+
+  // Load participants from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("spinnerParticipants");
+    if (saved) {
+      try {
+        setParticipants(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to load participants", e);
+      }
+    }
+  }, []);
+
+  // Save participants to localStorage
+  const saveParticipants = (newParticipants: Participant[]) => {
+    setParticipants(newParticipants);
+    localStorage.setItem("spinnerParticipants", JSON.stringify(newParticipants));
+  };
 
   const { data: balance } = useReadContract({
     address: HOUSE_OF_JOSHI_CONTRACT,
@@ -36,6 +64,42 @@ export default function SlotsPage() {
     query: { enabled: hasContractAddress && Boolean(account.address) }
   });
 
+  function addParticipant() {
+    if (!newName.trim()) {
+      setStatus("Please enter a participant name.");
+      return;
+    }
+
+    const newParticipant: Participant = {
+      id: Date.now().toString(),
+      name: newName,
+      image: newImage
+    };
+
+    const updated = [...participants, newParticipant];
+    saveParticipants(updated);
+    setNewName("");
+    setNewImage("");
+    setStatus(`Added ${newName} to spinner!`);
+  }
+
+  function removeParticipant(id: string) {
+    const updated = participants.filter((p) => p.id !== id);
+    saveParticipants(updated);
+  }
+
+  function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64 = event.target?.result as string;
+        setNewImage(base64);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   async function spin() {
     if (!hasContractAddress || !HOUSE_OF_JOSHI_CONTRACT) {
       setStatus("Add your NFT contract address in NEXT_PUBLIC_CONTRACT_ADDRESS before spinning.");
@@ -44,6 +108,11 @@ export default function SlotsPage() {
 
     if (!balance || balance === 0n) {
       setStatus("You must hold a House of Joshi NFT to spin.");
+      return;
+    }
+
+    if (participants.length === 0) {
+      setStatus("Add participants to the spinner first.");
       return;
     }
 
@@ -61,8 +130,8 @@ export default function SlotsPage() {
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
       // Select random winner
-      const randomIndex = Math.floor(Math.random() * PARTICIPANTS.length);
-      const selectedWinner = PARTICIPANTS[randomIndex];
+      const randomIndex = Math.floor(Math.random() * participants.length);
+      const selectedWinner = participants[randomIndex];
       setWinner(selectedWinner);
 
       // Call contract
@@ -71,7 +140,7 @@ export default function SlotsPage() {
         abi: houseOfJoshiAbi,
         functionName: "dailySpin"
       });
-      setStatus(`🎉 Winner: ${selectedWinner}! Spin submitted: ${hash}`);
+      setStatus(`🎉 Winner: ${selectedWinner.name}! Spin submitted: ${hash}`);
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Spin failed.");
     } finally {
@@ -79,7 +148,7 @@ export default function SlotsPage() {
     }
   }
 
-  const segmentAngle = 360 / PARTICIPANTS.length;
+  const segmentAngle = 360 / Math.max(participants.length, 1);
 
   return (
     <Shell>
@@ -90,26 +159,42 @@ export default function SlotsPage() {
       <section className="stats-grid">
         <Stat label="Your NFTs" value={balance?.toString() || "0"} />
         <Stat label="Last Spin" value={formatTimestamp(lastSpin)} />
-        <Stat label="Winner" value={winner || "Spin to win"} />
+        <Stat label="Winner" value={winner?.name || "Spin to win"} />
       </section>
 
       <section className="spinner-container">
         <div
           className={`spinner ${isSpinning ? "spinning" : ""}`}
-          style={{ transform: `rotate(${spinnerRotation}deg)` }}
+          style={{
+            transform: `rotate(${spinnerRotation}deg)`,
+            transition: isSpinning ? "transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none"
+          }}
         >
-          {PARTICIPANTS.map((name, index) => (
+          {participants.map((participant, index) => (
             <div
-              key={name}
+              key={participant.id}
               className="spinner-segment"
               style={{
                 transform: `rotate(${index * segmentAngle}deg)`,
-                borderLeft: `2px solid rgba(200, 150, 100, 0.3)`,
               }}
             >
-              <span style={{ transform: `rotate(${segmentAngle / 2}deg) translateY(-90px)` }}>
-                {name}
-              </span>
+              {participant.image ? (
+                <img
+                  src={participant.image}
+                  alt={participant.name}
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    borderRadius: "50%",
+                    transform: `rotate(${segmentAngle / 2}deg) translateY(-85px)`,
+                    border: "2px solid var(--gold-bright)",
+                  }}
+                />
+              ) : (
+                <span style={{ transform: `rotate(${segmentAngle / 2}deg) translateY(-90px)` }}>
+                  {participant.name}
+                </span>
+              )}
             </div>
           ))}
         </div>
@@ -126,6 +211,72 @@ export default function SlotsPage() {
           {isSpinning ? "Spinning..." : "Spin the Wheel"}
         </button>
         <p className="status">{status}</p>
+      </section>
+
+      <section className="form-panel">
+        <h2>Manage Participants</h2>
+        <div className="form-grid">
+          <label>
+            Participant Name
+            <input
+              type="text"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              placeholder="Enter name"
+            />
+          </label>
+          <label>
+            NFT Image
+            <input type="file" accept="image/*" onChange={handleImageUpload} />
+          </label>
+        </div>
+        <div className="actions">
+          <button
+            type="button"
+            onClick={addParticipant}
+            className="primary"
+          >
+            Add Participant
+          </button>
+        </div>
+      </section>
+
+      <section className="form-panel">
+        <h2>Current Participants ({participants.length})</h2>
+        <div className="participants-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {participants.map((participant) => (
+                <tr key={participant.id}>
+                  <td className="participant-image">
+                    {participant.image ? (
+                      <img src={participant.image} alt={participant.name} />
+                    ) : (
+                      <div className="no-image">No Image</div>
+                    )}
+                  </td>
+                  <td>{participant.name}</td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => removeParticipant(participant.id)}
+                      className="delete-btn"
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
     </Shell>
   );

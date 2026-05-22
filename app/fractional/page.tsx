@@ -31,7 +31,7 @@ export default function FractionalPage() {
 
   return (
     <Shell>
-      <PageIntro eyebrow="Fractions" title="Big Boy Shards">Set the shard count for a tier 3 NFT you own.</PageIntro>
+      <PageIntro eyebrow="Fractions" title="NFT Shards">Set the shard count for an NFT you own.</PageIntro>
       <section className="form-panel">
         <h2>Split NFT</h2>
         <div className="form-grid">
