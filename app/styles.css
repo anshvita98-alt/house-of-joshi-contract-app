@@ -342,6 +342,43 @@ input {
   font-size: 15px;
 }
 
+textarea {
+  width: 100%;
+  min-height: 140px;
+  border: 1px solid rgba(237, 201, 94, 0.45);
+  border-radius: var(--radius);
+  padding: 12px 13px;
+  color: var(--cream);
+  background: rgba(4, 3, 2, 0.72);
+  font-size: 14px;
+  font-family: monospace;
+  resize: vertical;
+}
+
+.readonly-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.readonly-field label {
+  color: var(--gold-bright);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.readonly-field p {
+  padding: 12px 13px;
+  border: 1px solid rgba(237, 201, 94, 0.3);
+  border-radius: var(--radius);
+  background: rgba(4, 3, 2, 0.5);
+  color: var(--cream);
+  font-size: 15px;
+  margin: 0;
+  word-break: break-all;
+}
+
 button:disabled {
   cursor: not-allowed;
   opacity: 0.55;
