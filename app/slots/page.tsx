@@ -191,7 +191,15 @@ export default function SlotsPage() {
                   }}
                 />
               ) : (
-                <span style={{ transform: `rotate(${segmentAngle / 2}deg) translateY(-90px)` }}>
+                <span
+                  style={{
+                    transform: `rotate(${segmentAngle / 2}deg) translateY(-90px)`,
+                    writingMode: "vertical-rl",
+                    textOrientation: "mixed",
+                    fontSize: "13px",
+                    fontWeight: "600",
+                  }}
+                >
                   {participant.name}
                 </span>
               )}
