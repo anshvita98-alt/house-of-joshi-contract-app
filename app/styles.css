@@ -399,6 +399,116 @@ button:disabled {
   background: #050403;
 }
 
+.spinner-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: var(--gap) auto;
+  aspect-ratio: 1;
+}
+
+.spinner {
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--gold-bright);
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(237, 201, 94, 0.1) 0deg 15deg,
+    rgba(237, 201, 94, 0.2) 15deg 30deg,
+    rgba(237, 201, 94, 0.1) 30deg 45deg,
+    rgba(237, 201, 94, 0.2) 45deg 60deg,
+    rgba(237, 201, 94, 0.1) 60deg 75deg,
+    rgba(237, 201, 94, 0.2) 75deg 90deg,
+    rgba(237, 201, 94, 0.1) 90deg 105deg,
+    rgba(237, 201, 94, 0.2) 105deg 120deg,
+    rgba(237, 201, 94, 0.1) 120deg 135deg,
+    rgba(237, 201, 94, 0.2) 135deg 150deg,
+    rgba(237, 201, 94, 0.1) 150deg 165deg,
+    rgba(237, 201, 94, 0.2) 165deg 180deg,
+    rgba(237, 201, 94, 0.1) 180deg 195deg,
+    rgba(237, 201, 94, 0.2) 195deg 210deg,
+    rgba(237, 201, 94, 0.1) 210deg 225deg,
+    rgba(237, 201, 94, 0.2) 225deg 240deg,
+    rgba(237, 201, 94, 0.1) 240deg 255deg,
+    rgba(237, 201, 94, 0.2) 255deg 270deg,
+    rgba(237, 201, 94, 0.1) 270deg 285deg,
+    rgba(237, 201, 94, 0.2) 285deg 300deg,
+    rgba(237, 201, 94, 0.1) 300deg 315deg,
+    rgba(237, 201, 94, 0.2) 315deg 330deg,
+    rgba(237, 201, 94, 0.1) 330deg 345deg,
+    rgba(237, 201, 94, 0.2) 345deg 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.1s linear;
+}
+
+.spinner.spinning {
+  animation: spin 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(var(--spinner-rotation, 0deg));
+  }
+}
+
+.spinner-segment {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-segment span {
+  position: absolute;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  transform-origin: center;
+}
+
+.spinner-pointer {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 20px solid var(--gold-bright);
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.spin-button {
+  min-height: 48px;
+  width: 100%;
+  border: 1px solid var(--gold-bright);
+  color: #080604;
+  background: linear-gradient(180deg, #fff4b1, var(--gold) 62%, #c49a36);
+  border-radius: var(--radius);
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: 750;
+  cursor: pointer;
+  margin-top: var(--gap);
+}
+
+.spin-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 @media (max-width: 1080px) {
   .console-shell {
     grid-template-columns: 236px minmax(0, 1fr);
