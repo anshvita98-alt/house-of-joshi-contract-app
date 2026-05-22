@@ -82,7 +82,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
     <main className="console-shell">
       <aside className="sidebar">
         <Link className="sidebar-brand" href="/">
-          <span className="logo-text">JH</span>
+          <img src="/logo.png" alt="House of Joshi Logo" />
           <span>
             <strong>House of Joshi</strong>
             <small>HOJ NFT Console</small>
